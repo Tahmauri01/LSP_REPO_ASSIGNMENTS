@@ -153,11 +153,27 @@ public class ETLPipeline {
             record.payLevel = payLevel;
             record.employmentStatus = employmentStatus;
             transformedRecords.add(record);
-            
+
         }
+
+        int rowsTransformed = transformedRecords.size();
+
+
+        try (java.io.PrintWriter writer = new java.io.PrintWriter(new java.io.FileWriter(OUTPUT_PATH))) {
+            writer.println("EmployeeID,Name,Department,HoursWorked,HourlyRate,GrossPay,PayLevel,EmploymentStatus");
+            for (TransformedRecord r : transformedRecords) {
+                writer.printf("%d,%s,%s,%.2f,%.2f,%.2f,%s,%s%n",
+                        r.employeeId, r.name, r.department, r.hoursWorked, r.hourlyRate,
+                        r.grossPay, r.payLevel, r.employmentStatus);
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing output file '" + OUTPUT_PATH + "': " + e.getMessage());
+            return;
         }
+ 
+        System.out.println("Rows read: " + rowsRead);
+        System.out.println("Rows transformed: " + rowsTransformed);
+        System.out.println("Rows skipped: " + rowsSkipped);
+        System.out.println("Output file: " + OUTPUT_PATH);
     }
-
-
 }
-
