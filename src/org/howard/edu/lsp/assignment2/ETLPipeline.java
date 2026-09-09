@@ -30,6 +30,18 @@ public class ETLPipeline {
 
                     rowsRead++;
 
+                if (line.isBlank()) {
+                    rowsSkipped++;
+                    continue;
+                }
+ 
+                String[] fields = line.split(",", -1);
+                if (fields.length != 5) {
+                    rowsSkipped++;
+                    continue;
+                }
+
+                rawRecords.add(fields);
 
     }
 
