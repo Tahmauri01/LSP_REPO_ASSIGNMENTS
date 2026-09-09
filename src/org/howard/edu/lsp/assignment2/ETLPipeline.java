@@ -73,7 +73,43 @@ public class ETLPipeline {
         List<TransformedRecord> transformedRecords = new ArrayList<>();
  
         for (String[] fields : rawRecords) {
+            String rawId = fields[0].trim();
+            String name = fields[1].trim().toUpperCase();
+            String department = fields[2].trim();
+            String rawHours = fields[3].trim();
+            String rawRate = fields[4].trim();
 
+
+            int employeeId;
+            double hoursWorked;
+            double hourlyRate;
+
+
+            try {
+                employeeId = Integer.parseInt(rawId);
+            } catch (NumberFormatException e) {
+                rowsSkipped++;
+                continue;
+            }
+ 
+            try {
+                hoursWorked = Double.parseDouble(rawHours);
+            } catch (NumberFormatException e) {
+                rowsSkipped++;
+                continue;
+            }
+ 
+            try {
+                hourlyRate = Double.parseDouble(rawRate);
+            } catch (NumberFormatException e) {
+                rowsSkipped++;
+                continue;
+            }
+ 
+            if (hoursWorked < 0 || hourlyRate < 0) {
+                rowsSkipped++;
+                continue;
+            }
         }
     }
 
