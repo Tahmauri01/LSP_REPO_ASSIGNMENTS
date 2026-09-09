@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,6 +111,24 @@ public class ETLPipeline {
                 rowsSkipped++;
                 continue;
             }
+
+
+            double pay;
+            if (hoursWorked <= OVERTIME_THRESHOLD) {
+                pay = hoursWorked * hourlyRate;
+            } else {
+                double overtimeHours = hoursWorked - OVERTIME_THRESHOLD;
+                pay = (OVERTIME_THRESHOLD * hourlyRate) + (overtimeHours * hourlyRate * OVERTIME_MULTIPLIER);
+            }
+
+
+            if (department.equals("IT")) {
+                pay = pay * (1 + IT_BONUS_RATE);
+            }
+
+            
+            BigDecimal grossPay = BigDecimal.valueOf(pay).setScale(2, RoundingMode.HALF_UP);
+
         }
     }
 
