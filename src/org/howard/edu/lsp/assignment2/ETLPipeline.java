@@ -47,4 +47,13 @@ public class ETLPipeline {
 
 
 
+}  catch (IOException e) {
+            System.err.println("Error reading input file '" + INPUT_PATH + "': " + e.getMessage());
+            return;
+        }
+
+        System.out.println("Rows read: " + rowsRead);
+        System.out.println("Structurally valid rows: " + rawRecords.size());
+        System.out.println("Rows skipped (blank/wrong field count): " + rowsSkipped);
+    }
 }
