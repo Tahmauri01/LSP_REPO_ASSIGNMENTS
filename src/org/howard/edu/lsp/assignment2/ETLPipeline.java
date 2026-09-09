@@ -3,6 +3,7 @@ package org.howard.edu.lsp.assignment2;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,17 @@ public class ETLPipeline {
     private static final double OVERTIME_MULTIPLIER = 1.5;
     private static final double IT_BONUS_RATE = 0.05;
     private static final double FULL_TIME_THRESHOLD = 30.00;
+
+    private static class TransformedRecord {
+        int employeeId;
+        String name;
+        String department;
+        double hoursWorked;
+        double hourlyRate;
+        BigDecimal grossPay;
+        String payLevel;
+        String employmentStatus;
+    }
 
     public static void main(String[] args) {
         
@@ -53,13 +65,18 @@ public class ETLPipeline {
 
 
 
-}  catch (IOException e) {
+        }  catch (IOException e) {
             System.err.println("Error reading input file '" + INPUT_PATH + "': " + e.getMessage());
             return;
         }
 
-        System.out.println("Rows read: " + rowsRead);
-        System.out.println("Structurally valid rows: " + rawRecords.size());
-        System.out.println("Rows skipped (blank/wrong field count): " + rowsSkipped);
+        List<TransformedRecord> transformedRecords = new ArrayList<>();
+ 
+        for (String[] fields : rawRecords) {
+
+        }
     }
+
+
 }
+
