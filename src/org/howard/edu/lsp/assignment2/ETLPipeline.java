@@ -126,9 +126,35 @@ public class ETLPipeline {
                 pay = pay * (1 + IT_BONUS_RATE);
             }
 
-            
+
             BigDecimal grossPay = BigDecimal.valueOf(pay).setScale(2, RoundingMode.HALF_UP);
 
+
+            String payLevel;
+            if (grossPay.compareTo(new BigDecimal("500.00")) < 0) {
+                payLevel = "Low";
+            } else if (grossPay.compareTo(new BigDecimal("1000.00")) < 0) {
+                payLevel = "Standard";
+            } else if (grossPay.compareTo(new BigDecimal("2000.00")) < 0) {
+                payLevel = "High";
+            } else {
+                payLevel = "Executive";
+            }
+    
+            String employmentStatus = (hoursWorked < FULL_TIME_THRESHOLD) ? "Part-Time" : "Full-Time";
+ 
+            TransformedRecord record = new TransformedRecord();
+            record.employeeId = employeeId;
+            record.name = name;
+            record.department = department;
+            record.hoursWorked = hoursWorked;
+            record.hourlyRate = hourlyRate;
+            record.grossPay = grossPay;
+            record.payLevel = payLevel;
+            record.employmentStatus = employmentStatus;
+            transformedRecords.add(record);
+            
+        }
         }
     }
 
