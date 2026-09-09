@@ -10,6 +10,10 @@ import java.util.List;
 public class ETLPipeline {
     private static final String INPUT_PATH = "data/employees.csv";
     private static final String OUTPUT_PATH = "data/transformed_employees.csv";
+    private static final double OVERTIME_THRESHOLD = 40.00;
+    private static final double OVERTIME_MULTIPLIER = 1.5;
+    private static final double IT_BONUS_RATE = 0.05;
+    private static final double FULL_TIME_THRESHOLD = 30.00;
 
     public static void main(String[] args) {
         
