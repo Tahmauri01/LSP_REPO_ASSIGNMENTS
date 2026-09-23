@@ -60,10 +60,10 @@ public class ETLPipeline {
     
     public static void main(String[] args) {
         ETLPipeline pipeline = new ETLPipeline(
-                new EmployeeCsvReader(INPUT_PATH),
-                new EmployeeParser(),
-                new PayrollCalculator(),
-                new PayrollCsvWriter(OUTPUT_PATH));
+                new Employeecsvreader(INPUT_PATH),
+                new Employeeparser(),
+                new Payrollcalculator(),
+                new Payrollcsvwriter(OUTPUT_PATH));
         pipeline.run();
     }
 
