@@ -44,8 +44,27 @@ public class ETLPipeline {
             }
             records.add(calculator.process(employee.get()));
         }
-    
-    }
 
+        try {
+            writer.write(records);
+        } catch (IOException e) {
+            System.err.println("Error writing output file '" + writer.getPath() + "': " + e.getMessage());
+            return;
+        }
+ 
+        System.out.println("Rows read: " + rowsRead);
+        System.out.println("Rows transformed: " + records.size());
+        System.out.println("Rows skipped: " + rowsSkipped);
+        System.out.println("Output file: " + writer.getPath());
+    }
+    
+    public static void main(String[] args) {
+        ETLPipeline pipeline = new ETLPipeline(
+                new EmployeeCsvReader(INPUT_PATH),
+                new EmployeeParser(),
+                new PayrollCalculator(),
+                new PayrollCsvWriter(OUTPUT_PATH));
+        pipeline.run();
+    }
 
 }
