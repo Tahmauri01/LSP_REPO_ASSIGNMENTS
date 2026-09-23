@@ -2,7 +2,7 @@ package org.howard.edu.lsp.assignment3;
 
 import java.util.Optional;
 
-public class Employeeparser {
+public class EmployeeParser {
     private static final int EXPECTED_FIELDS = 5;
 
     public Optional<Employee> parse(String line) {

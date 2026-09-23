@@ -1,6 +1,6 @@
 package org.howard.edu.lsp.assignment3;
 
-public enum Employmentstatus {
+public enum EmploymentStatus {
     PART_TIME("Part-Time"),
     FULL_TIME("Full-Time");
 
@@ -8,11 +8,11 @@ public enum Employmentstatus {
  
     private final String label;
 
-    Employmentstatus(String label) {
+    EmploymentStatus(String label) {
         this.label = label;
     }
 
-    public static Employmentstatus fromHours(double hoursWorked) {
+    public static EmploymentStatus fromHours(double hoursWorked) {
         return (hoursWorked < FULL_TIME_THRESHOLD) ? PART_TIME : FULL_TIME;
     }
  

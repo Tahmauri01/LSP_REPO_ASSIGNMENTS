@@ -2,7 +2,7 @@ package org.howard.edu.lsp.assignment3;
 
 import java.math.BigDecimal;
 
-public enum Paylevel {
+public enum PayLevel {
     LOW("Low", new BigDecimal("500.00")),
     STANDARD("Standard", new BigDecimal("1000.00")),
     HIGH("High", new BigDecimal("2000.00")),

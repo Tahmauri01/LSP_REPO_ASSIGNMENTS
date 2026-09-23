@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Employeecsvreader {
+public class EmployeeCsvReader {
     private final String path;
  
-    public Employeecsvreader(String path) {
+    public EmployeeCsvReader(String path) {
         this.path = path;
     }
  

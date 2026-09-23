@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-public class Payrollcsvwriter {
+public class PayrollCsvWriter {
     private final String path;
  
-    public Payrollcsvwriter(String path) {
+    public PayrollCsvWriter(String path) {
         this.path = path;
     }
  
@@ -16,10 +16,10 @@ public class Payrollcsvwriter {
         return path;
     }
 
-    public void write(List<Payrollrecord> records) throws IOException {
+    public void write(List<PayrollRecord> records) throws IOException {
         try (PrintWriter writer = new PrintWriter(new FileWriter(path))) {
-            writer.println(Payrollrecord.CSV_HEADER);
-            for (Payrollrecord record : records) {
+            writer.println(PayrollRecord.CSV_HEADER);
+            for (PayrollRecord record : records) {
                 writer.println(record.toCsvRow());
             }
         }

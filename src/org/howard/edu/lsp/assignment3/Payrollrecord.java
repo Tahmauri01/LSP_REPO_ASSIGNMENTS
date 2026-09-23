@@ -3,17 +3,17 @@ package org.howard.edu.lsp.assignment3;
 import java.math.BigDecimal;
 
 
-public class Payrollrecord {
+public class PayrollRecord {
     public static final String CSV_HEADER =
             "EmployeeID,Name,Department,HoursWorked,HourlyRate,GrossPay,PayLevel,EmploymentStatus";
  
     private final Employee employee;
-    private final Bigdecimal grossPay;
-    private final Paylevel payLevel;
-    private final Employmentstatus employmentStatus;
+    private final BigDecimal grossPay;
+    private final PayLevel payLevel;
+    private final EmploymentStatus employmentStatus;
 
-    public Payrollrecord(Employee employee, Bigdecimal grossPay,
-                         Paylevel payLevel, Employmentstatus employmentStatus) {
+    public PayrollRecord(Employee employee, BigDecimal grossPay,
+                         PayLevel payLevel, EmploymentStatus employmentStatus) {
         this.employee = employee;
         this.grossPay = grossPay;
         this.payLevel = payLevel;
@@ -22,8 +22,8 @@ public class Payrollrecord {
 
     public Employee getEmployee() { return employee; }
     public BigDecimal getGrossPay() { return grossPay; }
-    public Paylevel getPayLevel() { return payLevel; }
-    public Employmentstatus getEmploymentStatus() { return employmentStatus; }
+    public PayLevel getPayLevel() { return payLevel; }
+    public EmploymentStatus getEmploymentStatus() { return employmentStatus; }
  
     public String toCsvRow() {
         return String.format("%d,%s,%s,%.2f,%.2f,%.2f,%s,%s",
