@@ -17,5 +17,24 @@ public class Payrollcalculator {
                 PayLevel.fromGrossPay(grossPay),
                 EmploymentStatus.fromHours(employee.getHoursWorked()));
     }
+    
+    public BigDecimal calculateGrossPay(Employee employee) {
+        double hours = employee.getHoursWorked();
+        double rate = employee.getHourlyRate();
+ 
+        double pay;
+        if (hours <= OVERTIME_THRESHOLD) {
+            pay = hours * rate;
+        } else {
+            double overtimeHours = hours - OVERTIME_THRESHOLD;
+            pay = (OVERTIME_THRESHOLD * rate) + (overtimeHours * rate * OVERTIME_MULTIPLIER);
+        }
+ 
+        if (employee.getDepartment().equals(BONUS_DEPARTMENT)) {
+            pay = pay * (1 + IT_BONUS_RATE);
+        }
+ 
+        return BigDecimal.valueOf(pay).setScale(2, RoundingMode.HALF_UP);
+    }
 
 }
