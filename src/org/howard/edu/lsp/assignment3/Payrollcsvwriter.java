@@ -1,10 +1,14 @@
 package org.howard.edu.lsp.assignment3;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-
 public class Payrollcsvwriter {
-    
+    private final String path;
+ 
+    public Payrollcsvwriter(String path) {
+        this.path = path;
+    }
+ 
+    public String getPath() {
+        return path;
+    }
+
 }
