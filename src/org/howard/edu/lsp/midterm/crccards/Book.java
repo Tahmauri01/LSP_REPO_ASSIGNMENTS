@@ -28,4 +28,25 @@ public class Book {
     public boolean isAvailable() {
         return available;
     }
+
+    public void borrowBook() {
+        if (!available) {
+            throw new IllegalStateException("Book " + isbn + " is already borrowed.");
+        }
+        available = false;
+    }
+
+    public void returnBook() {
+        if (available) {
+            throw new IllegalStateException("Book " + isbn + " is not borrowed.");
+        }
+        available = true;
+    }
+
+    @Override
+    public String toString() {
+        return isbn + " " + title + " by " + author
+                + (available ? " [AVAILABLE]" : " [BORROWED]");
+    }
+
 }
