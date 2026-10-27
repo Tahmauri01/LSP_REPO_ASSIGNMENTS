@@ -6,7 +6,7 @@ package org.howard.edu.lsp.midterm.inheritance;
  * own pay rule.
  * @author Tahmauri Bobo
  */
-public class Employee {
+public abstract class Employee {
     private final double hoursWorked;
     private final double hourlyRate;
 
