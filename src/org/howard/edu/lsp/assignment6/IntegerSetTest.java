@@ -826,8 +826,12 @@ public class IntegerSetTest {
     @Test
     public void testToStringAscendingOrder() {
         // Arrange
+        IntegerSet s = setOf(15, -3, 8, 0);
         // Act
+        String text = s.toString();
         // Assert
+        assertEquals("[-3, 0, 8, 15]", text);
+        assertEquals("[2, 10, 100]", setOf(100, 2, 10).toString());
     }
  
     /**
@@ -837,8 +841,11 @@ public class IntegerSetTest {
     @Test
     public void testToStringEmptyFormatting() {
         // Arrange
+        IntegerSet s = new IntegerSet();
         // Act
+        String text = s.toString();
         // Assert
+        assertEquals("[]", text);
     }
  
     /**
@@ -848,8 +855,17 @@ public class IntegerSetTest {
     @Test
     public void testToStringExactSpacingAndDuplicates() {
         // Arrange
+        IntegerSet s = new IntegerSet();
+        s.add(3);
+        s.add(1);
+        s.add(3);
+        s.add(2);
+        s.add(1);
         // Act
+        String text = s.toString();
         // Assert
+        assertEquals("[1, 2, 3]", text);
+        assertEquals("[5]", setOf(5, 5).toString());
     }
  
 }
