@@ -265,8 +265,15 @@ public class IntegerSetTest {
     @Test
     public void testAddIgnoresDuplicates() {
         // Arrange
+        IntegerSet s = new IntegerSet();
         // Act
+        s.add(7);
+        s.add(7);
+        s.add(7);
         // Assert
+        assertEquals(1, s.length());
+        assertTrue(s.contains(7));
+        assertEquals("[7]", s.toString());
     }
  
     /**
@@ -276,8 +283,19 @@ public class IntegerSetTest {
     @Test
     public void testAddHandlesIntegerBoundaries() {
         // Arrange
+        IntegerSet s = new IntegerSet();
         // Act
+        s.add(Integer.MAX_VALUE);
+        s.add(0);
+        s.add(Integer.MIN_VALUE);
         // Assert
+        assertEquals(3, s.length());
+        assertTrue(s.contains(Integer.MIN_VALUE));
+        assertTrue(s.contains(0));
+        assertTrue(s.contains(Integer.MAX_VALUE));
+        assertEquals(Integer.MIN_VALUE, s.smallest());
+        assertEquals(Integer.MAX_VALUE, s.largest());
+        assertEquals("[-2147483648, 0, 2147483647]", s.toString());
     }
  
     // ===== remove() =====
@@ -289,8 +307,15 @@ public class IntegerSetTest {
     @Test
     public void testRemoveRemovesExistingElement() {
         // Arrange
+        IntegerSet s = setOf(1, 2, 3);
         // Act
+        s.remove(2);
         // Assert
+        assertFalse(s.contains(2));
+        assertTrue(s.contains(1));
+        assertTrue(s.contains(3));
+        assertEquals(2, s.length());
+        assertEquals("[1, 3]", s.toString());
     }
  
     /**
@@ -300,8 +325,13 @@ public class IntegerSetTest {
     @Test
     public void testRemoveIgnoresAbsentElement() {
         // Arrange
+        IntegerSet s = setOf(1, 2, 3);
         // Act
+        s.remove(99);
         // Assert
+        assertEquals(3, s.length());
+        assertTrue(s.equals(setOf(1, 2, 3)));
+        assertEquals("[1, 2, 3]", s.toString());
     }
  
     // ===== union() =====
@@ -313,8 +343,14 @@ public class IntegerSetTest {
     @Test
     public void testUnionOverlappingSets() {
         // Arrange
+        IntegerSet a = setOf(1, 2, 3);
+        IntegerSet b = setOf(3, 4, 5);
         // Act
+        IntegerSet result = a.union(b);
         // Assert
+        assertEquals(5, result.length());
+        assertTrue(result.equals(setOf(1, 2, 3, 4, 5)));
+        assertEquals("[1, 2, 3, 4, 5]", result.toString());
     }
  
     /**
@@ -324,8 +360,19 @@ public class IntegerSetTest {
     @Test
     public void testUnionEmptyAndSameOperand() {
         // Arrange
+        IntegerSet a = setOf(1, 2, 3);
+        IntegerSet empty = new IntegerSet();
         // Act
+        IntegerSet withEmpty = a.union(empty);
+        IntegerSet emptyWithA = empty.union(a);
+        IntegerSet withSelf = a.union(a);
         // Assert
+        assertTrue(withEmpty.equals(setOf(1, 2, 3)));
+        assertTrue(emptyWithA.equals(setOf(1, 2, 3)));
+        assertTrue(withSelf.equals(setOf(1, 2, 3)));
+        assertEquals(3, withSelf.length());
+        assertTrue(a.equals(setOf(1, 2, 3)));
+        assertTrue(empty.isEmpty());
     }
  
     /**
@@ -335,8 +382,22 @@ public class IntegerSetTest {
     @Test
     public void testUnionDoesNotMutateInputs() {
         // Arrange
+        IntegerSet a = setOf(1, 2);
+        IntegerSet b = setOf(2, 3);
         // Act
-        // Assert
+        IntegerSet result = a.union(b);
+        // Assert: inputs unchanged after the operation
+        assertNotSame(a, result);
+        assertNotSame(b, result);
+        assertEquals("[1, 2]", a.toString());
+        assertEquals("[2, 3]", b.toString());
+        // Modify the result; inputs must still be unchanged
+        result.add(100);
+        result.remove(1);
+        result.remove(2);
+        assertEquals("[3, 100]", result.toString());
+        assertEquals("[1, 2]", a.toString());
+        assertEquals("[2, 3]", b.toString());
     }
  
     // ===== intersect() =====
@@ -348,8 +409,17 @@ public class IntegerSetTest {
     @Test
     public void testIntersectOverlappingSets() {
         // Arrange
+        IntegerSet a = setOf(1, 2, 3, 4);
+        IntegerSet b = setOf(3, 4, 5, 6);
         // Act
+        IntegerSet result = a.intersect(b);
         // Assert
+        assertEquals(2, result.length());
+        assertTrue(result.equals(setOf(3, 4)));
+        assertFalse(result.contains(1));
+        assertFalse(result.contains(5));
+        assertEquals("[3, 4]", result.toString());
+
     }
  
     /**
@@ -359,8 +429,16 @@ public class IntegerSetTest {
     @Test
     public void testIntersectDisjointAndSameOperand() {
         // Arrange
+        IntegerSet a = setOf(1, 2, 3);
+        IntegerSet disjoint = setOf(7, 8, 9);
         // Act
+        IntegerSet none = a.intersect(disjoint);
+        IntegerSet self = a.intersect(a);
         // Assert
+        assertTrue(none.isEmpty());
+        assertEquals("[]", none.toString());
+        assertTrue(self.equals(setOf(1, 2, 3)));
+        assertTrue(a.equals(setOf(1, 2, 3)));
     }
  
     /**
@@ -370,8 +448,19 @@ public class IntegerSetTest {
     @Test
     public void testIntersectIndependentResult() {
         // Arrange
+        IntegerSet a = setOf(1, 2, 3);
+        IntegerSet b = setOf(2, 3, 4);
         // Act
+        IntegerSet result = a.intersect(b);
+        assertEquals("[2, 3]", result.toString());
+        result.add(50);
+        result.remove(2);
         // Assert
+        assertNotSame(a, result);
+        assertNotSame(b, result);
+        assertEquals("[3, 50]", result.toString());
+        assertEquals("[1, 2, 3]", a.toString());
+        assertEquals("[2, 3, 4]", b.toString());
     }
  
     // ===== diff() =====
@@ -383,8 +472,15 @@ public class IntegerSetTest {
     @Test
     public void testDiffDirectionMatters() {
         // Arrange
+        IntegerSet a = setOf(1, 2, 3, 4);
+        IntegerSet b = setOf(3, 4, 5);
         // Act
+        IntegerSet aMinusB = a.diff(b);
+        IntegerSet bMinusA = b.diff(a);
         // Assert
+        assertTrue(aMinusB.equals(setOf(1, 2)));
+        assertTrue(bMinusA.equals(setOf(5)));
+        assertFalse(aMinusB.equals(bMinusA));
     }
  
     /**
@@ -394,8 +490,17 @@ public class IntegerSetTest {
     @Test
     public void testDiffEmptyAndSameOperand() {
         // Arrange
+        IntegerSet a = setOf(1, 2, 3);
+        IntegerSet empty = new IntegerSet();
         // Act
+        IntegerSet aMinusEmpty = a.diff(empty);
+        IntegerSet emptyMinusA = empty.diff(a);
+        IntegerSet aMinusA = a.diff(a);
         // Assert
+        assertTrue(aMinusEmpty.equals(setOf(1, 2, 3)));
+        assertTrue(emptyMinusA.isEmpty());
+        assertTrue(aMinusA.isEmpty());
+        assertTrue(a.equals(setOf(1, 2, 3)));
     }
  
     /**
@@ -404,9 +509,21 @@ public class IntegerSetTest {
      */
     @Test
     public void testDiffIndependentResult() {
-        // Arrange
+         // Arrange
+        IntegerSet a = setOf(1, 2, 3);
+        IntegerSet b = setOf(3, 4);
         // Act
+        IntegerSet result = a.diff(b);
+        assertEquals("[1, 2]", result.toString());
+        result.add(4);
+        result.add(99);
+        result.remove(1);
         // Assert
+        assertNotSame(a, result);
+        assertNotSame(b, result);
+        assertEquals("[2, 4, 99]", result.toString());
+        assertEquals("[1, 2, 3]", a.toString());
+        assertEquals("[3, 4]", b.toString());
     }
  
     // ===== complement() =====
